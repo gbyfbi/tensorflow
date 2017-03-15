@@ -1,4 +1,4 @@
-/* Copyright 2015 Google Inc. All Rights Reserved.
+/* Copyright 2015 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,6 +38,11 @@ Tensor DeepCopy(const Tensor& other);
 // REQUIRES: Each member of 'tensors' must point to data stored in CPU memory.
 // REQUIRES: Each member of 'tensors' must be a Tensor of a copy-able type if it
 //           is not appropriately memory-aligned.
+Status Concat(const gtl::ArraySlice<Tensor>& tensors,
+              Tensor* result) TF_MUST_USE_RESULT;
+
+// Version of Concat() that crashes upon hitting an error.
+// DEPRECATED. DO NOT USE.
 Tensor Concat(const gtl::ArraySlice<Tensor>& tensors);
 
 // Splits 'tensor' into 'sizes.size()' individual tensors, along the 0th
@@ -50,6 +55,11 @@ Tensor Concat(const gtl::ArraySlice<Tensor>& tensors);
 //           appropriately memory-aligned.
 //
 // Split() and Concat() are inverse operations.
+Status Split(const Tensor& tensor, const gtl::ArraySlice<int64>& sizes,
+             std::vector<Tensor>* result) TF_MUST_USE_RESULT;
+
+// Version of Split() that crashes upon hitting an error.
+// DEPRECATED. DO NOT USE.
 std::vector<Tensor> Split(const Tensor& tensor,
                           const gtl::ArraySlice<int64>& sizes);
 
