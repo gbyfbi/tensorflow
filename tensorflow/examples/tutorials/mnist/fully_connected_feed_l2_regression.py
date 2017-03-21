@@ -45,7 +45,7 @@ def loss_l2(logits, labels):
       loss: Loss tensor of type float.
     """
     # labels = tf.to_int64(labels)
-    loss = tf.norm(labels - logits, ord='fro', axis=(0, 1))
+    loss = tf.norm(labels - tf.nn.softmax(logits), ord='fro', axis=(0, 1))
     # cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(
     #     labels=labels, logits=logits, name='xentropy')
     # return tf.reduce_mean(cross_entropy, name='xentropy_mean')
@@ -303,7 +303,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--input_data_dir',
         type=str,
-        default='/tmp/tensorflow/mnist/input_data',
+        default='/home/gao/Dropbox/Deeplearning/mnist',
         help='Directory to put the input data.'
     )
     parser.add_argument(
