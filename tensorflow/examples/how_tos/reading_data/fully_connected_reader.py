@@ -124,7 +124,9 @@ def run_training():
   with tf.Graph().as_default():
     # Input images and labels.
     images, labels = inputs(train=True, batch_size=FLAGS.batch_size,
-                            num_epochs=FLAGS.num_epochs)
+                            # num_epochs=FLAGS.num_epochs,
+                            num_epochs=None
+                            )
 
     # Build a Graph that computes predictions from the inference model.
     logits = mnist.inference(images,
