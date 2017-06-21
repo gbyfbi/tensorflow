@@ -118,7 +118,7 @@ GenericTransferManager::ShallowCopyTupleFromDevice(
 
   // Create a DeviceMemoryBase from each void* pointer.
   std::vector<se::DeviceMemoryBase> destination;
-  for (std::vector<void*>::size_type i = 0; i < element_pointers.size(); ++i) {
+  for (size_t i = 0; i < element_pointers.size(); ++i) {
     if (element_pointers[i] == nullptr &&
         !ShapeUtil::HasZeroElements(shape.tuple_shapes(i))) {
       return FailedPrecondition("tuple contains nullptr at element %lu", i);
@@ -180,14 +180,3 @@ int64 GenericTransferManager::GetByteSizeRequirement(const Shape& shape) {
 }
 
 }  // namespace xla
-
-static xla::TransferManager* CreateGenericTransferManager() {
-  return new xla::GenericTransferManager(se::cuda::kCudaPlatformId);
-}
-
-static bool InitModule() {
-  xla::TransferManager::RegisterTransferManager(se::cuda::kCudaPlatformId,
-                                                CreateGenericTransferManager);
-  return true;
-}
-static bool module_initialized = InitModule();
